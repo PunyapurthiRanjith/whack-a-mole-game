@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .main {
+            display: flex;
+            justify-content: center;
+            background-image: url(./reg-bg-img.jpg);
+            background-position: center;
+            background-size: cover;
+        }
+
+        form {
+            height: 500px;
+            width: 500px;
+            border-radius: 15px;
+            margin-top: 80px;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(181, 212, 214);
+            padding: 30px;
+            box-shadow: 5px 5px 20px;
+        }
+
+        #name,
+        #email,
+        #pass,
+        #cpass,
+        #number,
+        #submit {
+            width: 80%;
+            height: 35px;
+            border-radius: 5px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+        }
+
+        h2 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 30px;
+        }
+
+        .overLay {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .5);
+            display: flex;
+            justify-content: center;
+            padding: 45px;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="overLay">
+            <form action="" autocomplete="on">
+                <h2>CREATE ACCOUNT</h2>
+                <input type="text" placeholder="User Name" id="name" required>
+                <span id="nameError" class="error"></span>
+                <input type="text" placeholder="Email" id="email" required>
+                <span id="emailError" class="error"></span>
+                <input type="password" placeholder="Password" id="pass" required>
+                <span id="passError" class="error"></span>
+                <input type="password" placeholder="Confirm Password" id="cpass" required>
+                <span id="cpassError" class="error"></span>
+                <input type="tel" placeholder="Phone" id="number" required>
+                <span id="phoneError" class="error"></span>
+                <label for="agree"><input type="checkbox" id="agree" required> I agree to all statements and <a href="#">terms & conditions</a></label>
+                <input type="submit" value="REGISTER" id="submit">
+                <span>Already have an account? <a href="./loginform.html">Login here</a></span>
+            </form>
+        </div>
+    </div>
+    <script>
+        var form = document.forms[0];
+        var arr = [];
+
+        const usernameRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,20}$/; 
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/; 
+        const phoneRegex = /^[7896]\d{9}$/; 
+
+        const nameError = document.getElementById("nameError");
+        const emailError = document.getElementById("emailError");
+        const passError = document.getElementById("passError");
+        const cpassError = document.getElementById("cpassError");
+        const phoneError = document.getElementById("phoneError");
+
+        form.name.addEventListener("input", function (e) {
+            if (!usernameRegex.test(e.target.value)) {
+                nameError.textContent = "Username must be 5-12 characters, include one uppercase letter, one number, and one special character.";
+            } else {
+                nameError.textContent = "";
+            }
+        });
+
+        form.email.addEventListener("input", function (e) {
+            if (!emailRegex.test(e.target.value)) {
+                emailError.textContent = "Please enter a valid email address.";
+            } else {
+                emailError.textContent = "";
+            }
+        });
+
+        form.pass.addEventListener("input", function (e) {
+            if (!passwordRegex.test(e.target.value)) {
+                passError.textContent = "Password must be 8-20 characters, include one uppercase letter, one number, and one special character.";
+            } else {
+                passError.textContent = "";
+            }
+        });
+
+        form.cpass.addEventListener("input", function (e) {
+            if (e.target.value !== form.pass.value) {
+                cpassError.textContent = "Passwords do not match.";
+            } else {
+                cpassError.textContent = "";
+            }
+        });
+
+        form.number.addEventListener("input", function (e) {
+            if (!phoneRegex.test(e.target.value)) {
+                phoneError.textContent = "Phone number must start with 9, 8, 7, or 6 and be followed by 9 digits.";
+            } else {
+                phoneError.textContent = "";
+            }
+        });
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            var obj = {
+                username: form.name.value,
+                email: form.email.value,
+                password: form.pass.value,
+                phone: form.number.value,
+            }
+
+            if (!usernameRegex.test(form.name.value)) {
+                nameError.textContent = "Username is invalid.";
+                return;
+            }
+            if (!emailRegex.test(form.email.value)) {
+                emailError.textContent = "Email is invalid.";
+                return;
+            }
+            if (!passwordRegex.test(form.pass.value)) {
+                passError.textContent = "Password is invalid.";
+                return;
+            }
+            if (form.pass.value !== form.cpass.value) {
+                cpassError.textContent = "Passwords do not match.";
+                return;
+            }
+            if (!phoneRegex.test(form.number.value)) {
+                phoneError.textContent = "Phone number is invalid.";
+                return;
+            }
+
+            // Store in array and save to localStorage
+            arr.push(obj);
+            localStorage.setItem("user", JSON.stringify(arr));
+
+            // Clear form fields
+            form.name.value = "";
+            form.email.value = "";
+            form.pass.value = "";
+            form.cpass.value = "";
+            form.number.value = "";
+
+            var a = confirm("REGISTRATION SUCCESSFUL! \n \nDo you want to go to the Login Page?");
+            if (a) {
+                window.location.assign("./loginform.html");
+            }
+        });
+    </script>
+</body>
+
+</html>
