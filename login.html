@@ -7,11 +7,12 @@
     <title>Document</title>
 </head>
 <style>
-    body{
+    body {
         display: flex;
         justify-content: center;
     }
-    form{
+
+    form {
         width: 500px;
         height: 500px;
         background-color: rgb(213, 250, 187);
@@ -27,13 +28,16 @@
         font-family: Arial, Helvetica, sans-serif;
         box-shadow: 5px 5px 20px;
     }
-    #name, #pass{
+
+    #name,
+    #pass {
         width: 80%;
         height: 40px;
         border-radius: 5px;
         font-family: Arial, Helvetica, sans-serif;
     }
-    #submit{
+
+    #submit {
         width: 40%;
         height: 35px;
         border-radius: 20px;
@@ -41,7 +45,8 @@
         font-family: Arial, Helvetica, sans-serif;
         color: rgb(253, 253, 253);
     }
-    .forgot_sec{
+
+    .forgot_sec {
         margin-top: -25px;
         width: 80%;
         display: flex;
@@ -60,7 +65,7 @@
             <span><a href="#">forgot password?</a></span>
         </div>
         <input type="submit" value="LOG IN" id="submit">
-        <span>Not Registered? <a href="./registrationform.html">Register here</a></span>
+        <span>Not Registered? <a href="./index.html">Register here</a></span>
     </form>
 
 
@@ -68,78 +73,29 @@
         var a = document.forms[0]
         var arr = [];
         a.addEventListener("submit", function (e) {
-
             e.preventDefault();
             var obj = {
                 username: e.target[0].value,
-                password: e.target[1].value               
+                password: e.target[1].value
             }
             var data = JSON.parse(localStorage.getItem("user"));
-
             var userData = data.filter((val) => {
                 return val.username === obj.username
             })
-
             if (userData.length != 0) {
                 if (userData[0].password == obj.password) {
                     alert("LOGIN SUCCESSFUL!");
                     window.location.assign("./game.html");
                 }
                 else {
-                alert("Invalid Username or Password");
+                    alert("Invalid Username or Password");
+                }
             }
-           
-        }
             else {
                 alert("User does not Exist");
             }
-
         });
 
-
-
-
-
-
-        // a.addEventListener("submit", function (e) {
-
-        //     e.preventDefault();
-        //     var obj = {
-        //         username: e.target[0].value,
-        //         password: e.target[1].value,
-        //         email: e.target[2].value,
-        //         phone: e.target[3].value
-        //     }
-        //     var data = JSON.parse(localStorage.getItem("user"));
-
-        //     var userdata = data.filter((val) => {
-        //         return val.username == obj.username
-        //     })
-
-        //     if (userdata.length != 0) {
-        //         if (userdata[0].password == obj.password) {
-        //             if (userdata[0].email == obj.email) {
-        //                 if (userdata[0].phone == obj.phone) {
-        //                     alert("Login Successful");
-        //                     window.location.assign("./task1internal.html");
-        //                 }
-        //                 else {
-        //                     alert("Wrong Phone Number");
-        //                 }
-        //             }
-        //             else {
-        //                 alert("Wrong Email");
-        //             }
-        //         }
-        //         else {
-        //             alert("password is incorrect");
-        //         }
-        //     }
-        //     else {
-        //         alert("User does not Exist");
-        //     }
-
-        // })
 
     </script>
 </body>
